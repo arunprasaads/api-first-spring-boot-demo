@@ -1,0 +1,403 @@
+openapi: "3.0.2"
+info:
+  title: BankingAPI
+  version: "1.0"
+
+paths:
+  /api/v1/healthCheck:
+    get:
+      operationId: getHealthStatus
+      tags:
+        - "Health"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+
+  /api/v1/admin/employee:
+    put:
+      operationId: addEmployee
+      tags:
+        - Employee
+      description: Adds an Employee to the system
+      requestBody:
+        description: Details of Employee
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EmployeeUserDetails"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EmployeeId"
+
+  /api/v1/admin/employee/{empId}:
+    delete:
+      operationId: deleteEmployee
+      tags:
+        - Employee
+      description: Delete's an Employee from the system
+      parameters:
+        - name: empId
+          in: path
+          description: Id of Employee to be deleted
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: OK
+
+  /api/v1/customer:
+    put:
+      operationId: addCustomer
+      tags:
+        - Customer
+      description: Adds a customer to the system
+      requestBody:
+        description: Customer Information
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CustomerDetails"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CustomerId"
+
+  /api/v1/customer/{customerId}:
+    delete:
+      operationId: deleteCustomer
+      tags:
+        - Customer
+      description: Delete Customer
+      parameters:
+        - name: customerId
+          in: path
+          description: Id of Customer to be deleted
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: OK
+
+  /api/v1/customer/{customerId}/account/{accountNumber}:
+    put:
+      operationId: linkAccount
+      tags:
+        - Customer
+      description: Links an account to a Customer in the system
+      parameters:
+        - name: customerId
+          in: path
+          description: Id of Customer to whom account needs to be linked
+          required: true
+          schema:
+            type: integer
+        - name: accountNumber
+          in: path
+          description: Id of Account to be linked to the customer
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: OK
+
+  /api/v1/account/{accountType}:
+    put:
+      operationId: createAccount
+      tags:
+        - Account
+      description: Creates an account in the system
+      parameters:
+        - name: accountType
+          in: path
+          description: Type of account to be created
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AccountNumber"
+
+  /api/v1/account/{accountNumber}:
+    delete:
+      operationId: deleteAccount
+      tags:
+        - Account
+      description: Delete Account
+      parameters:
+        - name: accountNumber
+          in: path
+          description: Account Number to be deleted
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: OK
+
+  /api/v1/transaction:
+    put:
+      operationId: makeTransaction
+      tags:
+        - "Transaction"
+      description: transfer funds from one account to another
+      requestBody:
+        description: Details for performing a transaction
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TransactionDetails"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TransactionId"
+
+components:
+  schemas:
+    EmployeeId:
+      title: Employee Id
+      type: object
+      description: Holds the Employee Id
+      properties:
+        empId:
+          type: integer
+          description: Employee Id
+          example: 10001
+
+    EmployeeDetails:
+      title: Employee Details
+      type: object
+      description: Holds the Emplyee Details
+      properties:
+        firstName:
+          type: string
+          description: Employee First Name
+          example: abcd
+        lastName:
+          type: string
+          description: Employee Last Name
+          example: xyz
+        dateOfBirth:
+          type: integer
+          format: int64
+          description: Epoch time for Date
+          example: 1100011
+        designation:
+          type: string
+          description: Designation of the Employee
+          example: Manager
+
+    Employee:
+      title: Employee Information
+      description: All the Employee Information
+      allOf:
+        - $ref: "#/components/schemas/EmployeeId"
+        - $ref: "#/components/schemas/EmployeeDetails"
+
+    Role:
+      title: Role
+      type: string
+      description: Role of the user
+      enum:
+        - "ADMIN"
+        - "EMPLOYEE"
+
+    UserDetails:
+      title: User
+      type: object
+      description: Holds User Access Details
+      properties:
+        password:
+          type: string
+          description: Password for the user
+          example: ashdakh
+        roles:
+          type: array
+          description: An Array of roles
+          example: ["ADMIN", "EMPLOYEE"]
+          items:
+            $ref: "#/components/schemas/Role"
+
+    User:
+      title: User
+      description: Holds User Information
+      allOf:
+        - $ref: "#/components/schemas/EmployeeId"
+        - $ref: "#/components/schemas/UserDetails"
+
+    EmployeeUserDetails:
+      title: Employee and User Details
+      type: object
+      description: Employee and User Details
+      allOf:
+        - $ref: "#/components/schemas/EmployeeDetails"
+        - $ref: "#/components/schemas/UserDetails"
+
+    CustomerId:
+      title: Customer Id
+      type: object
+      description: Id for the customer
+      properties:
+        customerId:
+          type: integer
+          description: Id for the customer
+          example: 100001
+
+    KYCDetails:
+      title: KYC Details
+      type: object
+      description: Holds the KYC Details of the customer
+      properties:
+        details:
+          type: string
+          description: all the kyc details of the customer
+          example: some kyc details
+
+    CustomerDetails:
+      title: Customer Details
+      type: object
+      description: Holds the Details of the Customer
+      properties:
+        firstName:
+          type: string
+          description: First Name of customer
+          example: abcd
+        lastName:
+          type: string
+          description: Employee Last Name
+          example: xyz
+        dateOfBirth:
+          type: integer
+          format: int64
+          description: Epoch time for Date
+          example: 1100011
+        kycDetails:
+          $ref: "#/components/schemas/KYCDetails"
+
+    AccountNumber:
+      title: Account Number
+      type: object
+      description: Account Number
+      properties:
+        accountNumber:
+          type: integer
+          description: Account Number
+          example: 10001
+
+    Account:
+      title: Acount Information
+      type: object
+      description: Holds the information of the Account
+      allOf:
+        - $ref: "#/components/schemas/AccountNumber"
+        - type: object
+          properties:
+            accountType:
+              type: string
+              description: Name of the account type
+              example: loan
+            balance:
+              type: number
+              format: float
+              description: Account balance
+              example: 50000.55
+
+    Customer:
+      title: Customer
+      type: object
+      description: Full information of a customer along with his Account details
+      allOf:
+        - $ref: "#/components/schemas/CustomerId"
+        - $ref: "#/components/schemas/CustomerDetails"
+        - type: object
+          properties:
+            accounts:
+              type: array
+              description: List of account numbers held by the customer
+              items:
+                type: integer
+                description: Account Numbers
+
+    TransactionDetails:
+      title: Transaction Details
+      type: object
+      description: Details for a transaction
+      properties:
+        fromAccountNumber:
+          type: integer
+          description: Account Number from which funds are transferred
+          example: 10001
+        toAccountNumber:
+          type: integer
+          description: Account Number to which funds are transferred
+          example: 10002
+        fundsToTransfer:
+          type: number
+          format: float
+          description: Funds to transfer
+          example: 500.55
+        transactionDescription:
+          type: string
+          description: Reason for transaction as description
+          example: Bank Interest
+
+    TransactionId:
+      title: Transaction Id
+      type: object
+      description: Transaction Id of a transaction performed
+      properties:
+        transactionId:
+          type: string
+          description: Id of the transaction
+          example: qwe1231iqwiuasj123
+
+    Transaction:
+      type: object
+      description: Complete Details of a transaction
+      allOf: #Note we are not adding TransactionId here as the entity id field will be used as transaction id
+        - $ref: "#/components/schemas/TransactionDetails"
+        - type: object
+          properties:
+            transactionTime:
+              type: integer
+              format: int64
+              description: epoch time stamp of the transaction
+              example: 100000000012
+
+    AccountBalanceHistory:
+      title: Account Balance History
+      type: object
+      description: A History of how the accoutn balance is transforming
+      allOf:
+        - $ref: "#/components/schemas/TransactionId"
+        - $ref: "#/components/schemas/AccountNumber"
+        - type: object
+          properties:
+            balancePostTransaction:
+              type: number
+              format: float
+              description: Holds the balance information for the account post transaction
+              example: 5005.67

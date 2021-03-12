@@ -1,0 +1,93 @@
+plugins {
+	id 'org.springframework.boot' version '2.4.3'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'java'
+	id 'org.openapi.generator' version '5.0.1'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+configurations {
+    developmentOnly
+    runtimeClasspath {
+        extendsFrom developmentOnly
+    }
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'  
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+
+	compileOnly 'org.projectlombok:lombok'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	
+	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+	annotationProcessor 'org.projectlombok:lombok'
+	
+	// for openapi
+	implementation 'org.openapitools:jackson-databind-nullable:0.2.0'
+	annotationProcessor 'io.swagger:swagger-annotations:1.5.22'
+    implementation 'io.springfox:springfox-boot-starter:3.0.0'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+test {
+	useJUnitPlatform()
+}
+
+/* Generate Server Code from OpenAPI definition */
+def bankApiYml = "$rootDir/src/main/resources/bank-api.yml".toString()
+
+/* server code configuration */
+task buildBankingServerCode(type: org.openapitools.generator.gradle.plugin.tasks.GenerateTask) {
+    generatorName = "spring"
+    inputSpec = bankApiYml
+    outputDir = "$buildDir/generated".toString()
+
+    groupId = "$project.group"
+    id = "$project.name-java-client"
+    version = "$project.version"
+    apiPackage = "com.arun.banking.api"
+    modelPackage = "com.arun.banking.model"
+    invokerPackage = "com.arun.banking.handler"
+    enablePostProcessFile = true
+    skipOverwrite = false
+    configOptions = [
+            configPackage       : "com.banking.api.config",
+            java8               : "true",
+            dateLibrary         : "java8",
+            serializationLibrary: "jackson",
+            library             : "spring-boot",
+            //delegatePattern     : "true",
+            interfaceOnly       : "true",
+            useBeanValidation   : "true",
+            serializableModel   : "true",
+            useTags             : "true"
+    ]
+
+}
+
+// code will be generated during compilation
+compileJava.dependsOn(buildBankingServerCode)
+
+
+// attach the generated folder as source for this project
+sourceSets {
+    main {
+        java {
+            srcDir "$buildDir/generated/src/main/java"
+        }
+    }
+}
