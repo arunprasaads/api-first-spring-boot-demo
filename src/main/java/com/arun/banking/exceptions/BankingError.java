@@ -8,7 +8,9 @@ import org.springframework.http.HttpStatus;
 public enum BankingError {
 
     /** Different Error Codes */
-    ERR_1001(HttpStatus.BAD_REQUEST, "Incorrect Input"), ERR_1002(HttpStatus.NO_CONTENT, "No Information Available");
+    ERR_BAD_REQUEST(HttpStatus.BAD_REQUEST, "Incorrect Input"),
+    ERR_NOT_FOUND(HttpStatus.NOT_FOUND, "No Information Available"),
+    ERR_INTERNAL_ERR(HttpStatus.INTERNAL_SERVER_ERROR, "Error within Server");
 
     private HttpStatus httpStatus;
     private String message;

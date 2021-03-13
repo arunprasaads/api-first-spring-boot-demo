@@ -243,7 +243,7 @@ components:
 
     User:
       title: User
-      description: Holds User Information
+      description: Holds User Information for Authentication and Authorisation
       allOf:
         - $ref: "#/components/schemas/EmployeeId"
         - $ref: "#/components/schemas/UserDetails"
