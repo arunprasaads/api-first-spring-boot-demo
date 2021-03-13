@@ -175,6 +175,29 @@ paths:
               schema:
                 $ref: "#/components/schemas/TransactionId"
 
+  /api/v1/transaction/history:
+    post:
+      operationId: getHistory
+      tags:
+        - "Transaction"
+      description: transfer funds from one account to another
+      requestBody:
+        description: Details for fetching transaction history for the account
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TransactionHistoryRequest"
+      responses:
+        200:
+          description: OK
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+                description: returns a pdf document
+
 components:
   schemas:
     EmployeeId:
@@ -203,7 +226,7 @@ components:
         dateOfBirth:
           type: integer
           format: int64
-          description: Epoch time for Date
+          description: Epoch time in milliseconds for Date
           example: 1100011
         designation:
           type: string
@@ -292,7 +315,7 @@ components:
         dateOfBirth:
           type: integer
           format: int64
-          description: Epoch time for Date
+          description: Epoch time in milliseconds for Date
           example: 1100011
         kycDetails:
           $ref: "#/components/schemas/KYCDetails"
@@ -384,7 +407,7 @@ components:
             transactionTime:
               type: integer
               format: int64
-              description: epoch time stamp of the transaction
+              description: epoch time stamp in milliseconds of the transaction
               example: 100000000012
 
     AccountBalanceHistory:
@@ -401,3 +424,25 @@ components:
               format: float
               description: Holds the balance information for the account post transaction
               example: 5005.67
+            transactionTime:
+              type: integer
+              format: int64
+              description: epoch time stamp in milliseconds of the transaction
+              example: 100000000012
+
+    TransactionHistoryRequest:
+      title: Transaction History Request
+      type: object
+      description: request to retrieve transaction Details for account
+      allOf:
+        - $ref: "#/components/schemas/AccountNumber"
+        - type: object
+          properties:
+            fromTime:
+              type: integer
+              format: int64
+              description: from date in epoch time in milliseconds
+            toTime:
+              type: integer
+              format: int64
+              description: to date in epoch time in milliseconds
