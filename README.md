@@ -12,7 +12,7 @@ OpenApi 3.0
 MongoDb
 JWT Token
 gradle - for build process
-Postman for testing (postman collection is present in docs folder)
+Postman for testing (postman collection is present in docs folder : BankingApi.postman_collection.json)
 
 # Launching Application: #
 Command for testing project. In project root folder run:
@@ -31,6 +31,9 @@ com.arun.banking: <br />
 			security - Scurity Configuration & JWT<br />Authorization Filter
 			service - Service Layer inbetween controller (ApiImp) and DB where the business logic is held<br />
 			util - Some utility for PDF generation, LockObject handling and Token generation<br />
+			
+# Architecture Diagram #
+Kindly refer docs folder : BankingArchitecture.pdf
 			
 # Key Callouts: #
 (1) All use cases have been addressed and only happy paths were covered in testing<br />
