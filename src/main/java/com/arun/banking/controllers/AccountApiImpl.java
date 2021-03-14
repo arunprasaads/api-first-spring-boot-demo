@@ -1,6 +1,7 @@
 package com.arun.banking.controllers;
 
 import com.arun.banking.api.AccountApi;
+import com.arun.banking.model.Account;
 import com.arun.banking.model.AccountNumber;
 import com.arun.banking.services.AccountService;
 
@@ -28,6 +29,29 @@ public class AccountApiImpl implements AccountApi {
     public ResponseEntity<AccountNumber> createAccount(String accountType) {
         AccountNumber accountNumber = this.accountService.createAccount(accountType);
         return new ResponseEntity<>(accountNumber, HttpStatus.OK);
+    }
+
+    /**
+     * Endpoint for fetching account details
+     * 
+     * @param accountNumber account number for which details needs to be fetched
+     * @return get account information
+     */
+    @Override
+    public ResponseEntity<Account> getAccountDetails(Integer accountNumber) {
+        Account accountInfo = this.accountService.getAccount(accountNumber);
+        return new ResponseEntity<>(accountInfo, HttpStatus.OK);
+    }
+
+    /**
+     * End point for adding interest
+     * 
+     * @param accountNumber account number to which interest needs to be added
+     */
+    @Override
+    public ResponseEntity<Void> addInterest(Integer accountNumber) {
+        this.accountService.addInterest(accountNumber);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     /**

@@ -4,6 +4,7 @@ import com.arun.banking.entities.Account;
 import com.arun.banking.exceptions.BankingError;
 import com.arun.banking.exceptions.BankingException;
 import com.arun.banking.model.AccountNumber;
+import com.arun.banking.model.TransactionDetails;
 import com.arun.banking.repositories.AccountRepository;
 
 import org.slf4j.Logger;
@@ -26,6 +27,9 @@ public class AccountService {
 
     @Autowired
     IdCounterTrackerService counterService;
+
+    @Autowired
+    TransactionService transactionService;
 
     /**
      * Creates a new account given an account type
@@ -55,7 +59,33 @@ public class AccountService {
      * @return Account information
      */
     public Account getAccount(Integer accountNumber) {
-        return this.accountRepository.findByAccountNumber(accountNumber);
+        Account account = this.accountRepository.findByAccountNumber(accountNumber);
+        if (null == account) {
+            logger.error("Not a valid Account Number:" + accountNumber);
+            throw new BankingException(BankingError.ERR_NOT_FOUND, "Invalid account number:" + accountNumber);
+        }
+        return account;
+    }
+
+    /**
+     * Credit Interst for the given account number
+     * 
+     * @param accountNumber account number to whom interest needs to be credited
+     */
+    public void addInterest(Integer accountNumber) {
+        logger.info("Crediting Interest to account: " + accountNumber);
+        Account account = this.getAccount(accountNumber);
+
+        Float interest = account.getBalance() * 0.035f;
+
+        TransactionDetails transactionDtls = new TransactionDetails();
+        transactionDtls.setFundsToTransfer(interest);
+        transactionDtls.setToAccountNumber(accountNumber);
+        transactionDtls.setTransactionDescription("Annual Interest Credit");
+        transactionDtls.setTransactionType("Interest");
+
+        transactionService.makeTransaction(transactionDtls);
+        logger.info("Interest Credited to: " + accountNumber);
     }
 
     /**

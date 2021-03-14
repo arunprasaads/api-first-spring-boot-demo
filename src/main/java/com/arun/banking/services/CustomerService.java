@@ -9,6 +9,7 @@ import com.arun.banking.exceptions.BankingError;
 import com.arun.banking.exceptions.BankingException;
 import com.arun.banking.model.CustomerDetails;
 import com.arun.banking.model.CustomerId;
+import com.arun.banking.model.KYCDetails;
 import com.arun.banking.repositories.CustomerRepository;
 
 import org.slf4j.Logger;
@@ -77,20 +78,50 @@ public class CustomerService {
      */
     public void linkAccountToCustomer(Integer customerId, Integer accountNumber) {
         logger.info("linking account: " + accountNumber + " to customerId:" + customerId);
-        Customer customer = this.customerRepository.findByCustomerId(customerId);
+        // This also checks if customer exists
+        Customer customer = this.getCustomer(customerId);
+        // This also checks if account exists
         Account account = this.accountService.getAccount(accountNumber);
-        if (null == customer || null == account) {
-            logger.error("Invalid account/customer: " + accountNumber + "/" + customerId);
-            throw new BankingException(BankingError.ERR_BAD_REQUEST, "Invalid accountNumber/CustomerId");
-        } else {
-            List<Integer> accounts = customer.getAccounts();
-            if (!accounts.contains(accountNumber)) {
-                accounts.add(accountNumber);
-                customer.accounts(accounts);
-                this.customerRepository.save(customer);
-            }
+
+        List<Integer> accounts = customer.getAccounts();
+        if (!accounts.contains(account.getAccountNumber())) {
+            accounts.add(account.getAccountNumber());
+            customer.accounts(accounts);
+            this.customerRepository.save(customer);
         }
+
         logger.info("linked account: " + accountNumber + " to customerId:" + customerId);
+    }
+
+    /**
+     * Updates the KYC Details for the customer
+     * 
+     * @param customerId customer id of the customer
+     * @param kycDetails KYC Details that needs to be updated
+     */
+    public void updateKYC(Integer customerId, KYCDetails kycDetails) {
+        logger.info("Updating KYC for customer: " + customerId);
+        Customer customer = this.getCustomer(customerId);
+
+        customer.setKycDetails(kycDetails);
+        this.customerRepository.save(customer);
+
+        logger.info("KYC Details for customer updated");
+    }
+
+    /**
+     * Gets the Customer Information
+     * 
+     * @param customerId Customer Id who's information needs to be fetched
+     * @return Customer information
+     */
+    public Customer getCustomer(Integer customerId) {
+        Customer customer = this.customerRepository.findByCustomerId(customerId);
+        if (null == customer) {
+            logger.error("CustomerId doesn't exist: " + customerId);
+            throw new BankingException(BankingError.ERR_BAD_REQUEST, "Customer does not exist");
+        }
+        return customer;
     }
 
     /**
@@ -100,18 +131,13 @@ public class CustomerService {
      */
     public void deleteCustomer(Integer customerId) {
         logger.info("Deleting Customer: " + customerId);
-        Customer customer = this.customerRepository.findByCustomerId(customerId);
-        if (null == customer) {
-            logger.warn("CustomerId doesn't exist: " + customerId);
-            throw new BankingException(BankingError.ERR_BAD_REQUEST, "Customer does not exist");
-        } else {
-            // Delete all associated accounts
-            customer.getAccounts().forEach((accountNumber) -> {
-                this.accountService.deleteAccount(accountNumber);
-            });
-            // Delete Customer
-            this.customerRepository.delete(customer);
-        }
+        Customer customer = this.getCustomer(customerId);
+        // Delete all associated accounts
+        customer.getAccounts().forEach((accountNumber) -> {
+            this.accountService.deleteAccount(accountNumber);
+        });
+        // Delete Customer
+        this.customerRepository.delete(customer);
         logger.info("Deleted Customer: " + customerId);
     }
 }

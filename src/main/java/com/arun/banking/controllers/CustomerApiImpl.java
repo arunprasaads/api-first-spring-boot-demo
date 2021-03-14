@@ -3,8 +3,10 @@ package com.arun.banking.controllers;
 import javax.validation.Valid;
 
 import com.arun.banking.api.CustomerApi;
+import com.arun.banking.model.Customer;
 import com.arun.banking.model.CustomerDetails;
 import com.arun.banking.model.CustomerId;
+import com.arun.banking.model.KYCDetails;
 import com.arun.banking.services.CustomerService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +45,30 @@ public class CustomerApiImpl implements CustomerApi {
     public ResponseEntity<Void> linkAccount(Integer customerId, Integer accountNumber) {
         this.customerService.linkAccountToCustomer(customerId, accountNumber);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    /**
+     * End point to update KYC information
+     * 
+     * @param customerId customer id who's KYC details needs to be updated
+     * @param kyCDetails the KYC details to be updated
+     */
+    @Override
+    public ResponseEntity<Void> updateKYC(Integer customerId, @Valid KYCDetails kyCDetails) {
+        this.customerService.updateKYC(customerId, kyCDetails);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    /**
+     * End point to fetch Customer Information
+     * 
+     * @param customerId Customer Id who's details needs to be fetched
+     * @return Customer information
+     */
+    @Override
+    public ResponseEntity<Customer> getCustomerDetails(Integer customerId) {
+        Customer customer = this.customerService.getCustomer(customerId);
+        return new ResponseEntity<>(customer, HttpStatus.OK);
     }
 
     /**

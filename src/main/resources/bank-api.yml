@@ -76,6 +76,30 @@ paths:
               schema:
                 $ref: "#/components/schemas/CustomerId"
 
+  /api/v1/customer/{customerId}/kyc:
+    put:
+      operationId: updateKYC
+      tags:
+        - Customer
+      description: Update KYC information
+      parameters:
+        - name: customerId
+          in: path
+          description: Id of Customer to be deleted
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        description: KYC information
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/KYCDetails"
+      responses:
+        200:
+          description: OK
+
   /api/v1/customer/{customerId}:
     delete:
       operationId: deleteCustomer
@@ -92,6 +116,25 @@ paths:
       responses:
         200:
           description: OK
+    get:
+      operationId: getCustomerDetails
+      tags:
+        - Customer
+      description: Gets the details of the customer
+      parameters:
+        - name: customerId
+          in: path
+          description: Id of Customer to be deleted
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Customer"
 
   /api/v1/customer/{customerId}/account/{accountNumber}:
     put:
@@ -138,11 +181,48 @@ paths:
                 $ref: "#/components/schemas/AccountNumber"
 
   /api/v1/account/{accountNumber}:
+    get:
+      operationId: getAccountDetails
+      tags:
+        - Account
+      description: Fetch Account Details
+      parameters:
+        - name: accountNumber
+          in: path
+          description: Account Number to be deleted
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Account"
+
     delete:
       operationId: deleteAccount
       tags:
         - Account
       description: Delete Account
+      parameters:
+        - name: accountNumber
+          in: path
+          description: Account Number to be deleted
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: OK
+
+  /api/v1/account/{accountNumber}/interest:
+    put:
+      operationId: addInterest
+      tags:
+        - Account
+      description: Add Interest to account
       parameters:
         - name: accountNumber
           in: path
@@ -298,6 +378,11 @@ components:
           type: string
           description: all the kyc details of the customer
           example: some kyc details
+        aadhar:
+          type: integer
+          format: int64
+          description: Addhar card number
+          example: 128931289371892
 
     CustomerDetails:
       title: Customer Details
@@ -386,6 +471,10 @@ components:
           type: string
           description: Reason for transaction as description
           example: Bank Interest
+        transactionType:
+          type: string
+          description: Type of transaction
+          example: interest, transfer, initial deposit
 
     TransactionId:
       title: Transaction Id

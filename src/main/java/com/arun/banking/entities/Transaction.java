@@ -38,5 +38,6 @@ public class Transaction extends com.arun.banking.model.Transaction {
         this.setFundsToTransfer(transactionDetails.getFundsToTransfer());
         this.setTransactionDescription(transactionDetails.getTransactionDescription());
         this.setTransactionTime(System.currentTimeMillis());
+        this.transactionType(transactionDetails.getTransactionType());
     }
 }

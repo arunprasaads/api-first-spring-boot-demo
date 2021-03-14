@@ -45,15 +45,14 @@ public class TransactionService {
     public TransactionId makeTransaction(TransactionDetails transactionDetails) {
         // validate incoming data ...
         logger.info("Initiating transaction for :" + transactionDetails.toString());
-        Account fromAccount = this.accountService.getAccount(transactionDetails.getFromAccountNumber());
+
+        Account fromAccount = null;
+        if (null != transactionDetails.getFromAccountNumber()) {
+            fromAccount = this.accountService.getAccount(transactionDetails.getFromAccountNumber());
+        }
         Account toAccount = this.accountService.getAccount(transactionDetails.getToAccountNumber());
 
-        if (null == toAccount) {
-            logger.error("Destination account does not exist to transfer");
-            throw new BankingException(BankingError.ERR_BAD_REQUEST, "Invalid toAccount number");
-        }
-
-        if (null != fromAccount && fromAccount.getBalance() < transactionDetails.getFundsToTransfer()) {
+        if (null != fromAccount && (fromAccount.getBalance() < transactionDetails.getFundsToTransfer())) {
             logger.error("Insufficient funds in fromAccount to initiate transfer");
             throw new BankingException(BankingError.ERR_BAD_REQUEST, "Insufficient funds in fromAccount");
         }
