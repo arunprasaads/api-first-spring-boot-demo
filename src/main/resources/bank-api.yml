@@ -13,9 +13,47 @@ paths:
         "200":
           description: OK
           content:
-            application/json:
+            text/html:
               schema:
                 type: string
+
+  /api/v1/signin:
+    post:
+      operationId: signIn
+      tags:
+        - Auth
+      description: Allows a user to Sign in and generate a bearer token
+      requestBody:
+        description: Sign In Information (Employee Id and password)
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SigninRequest"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SigninResponse"
+
+  /api/v1/signout/{empId}:
+    post:
+      operationId: signOut
+      tags:
+        - Auth
+      description: Allows the user to sign out
+      parameters:
+        - name: empId
+          in: path
+          description: Id of Employee to be deleted
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: OK
 
   /api/v1/admin/employee:
     put:
@@ -535,3 +573,37 @@ components:
               type: integer
               format: int64
               description: to date in epoch time in milliseconds
+
+    SigninRequest:
+      title: Sign In Request
+      type: object
+      description: A request for user sign in
+      allOf:
+        - $ref: "#/components/schemas/EmployeeId"
+        - type: object
+          properties:
+            password:
+              type: string
+              description: Password for the user
+              example: ashdakh
+
+    SigninResponse:
+      title: Sign In Response
+      type: object
+      description: A response object for sign in
+      properties:
+        token:
+          type: string
+          description: Bearer toke to be used in succesive communications
+
+    EmpBearerToken:
+      title: Employee Bearer Token
+      type: object
+      description: An entity that holds the bearer token for an employee
+      allOf:
+        - $ref: "#/components/schemas/EmployeeId"
+        - type: object
+          properties:
+            bearerToken:
+              type: string
+              description: Bearer Token string for the employee
