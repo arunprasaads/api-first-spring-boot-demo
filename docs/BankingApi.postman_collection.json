@@ -1,0 +1,374 @@
+{
+	"variables": [],
+	"info": {
+		"name": "BankingApi",
+		"_postman_id": "36e488a2-1f08-2090-e7c7-0e8a37dd8993",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Employee",
+			"description": "",
+			"item": [
+				{
+					"name": "AddEmployee",
+					"request": {
+						"url": "http://localhost:8080/api/v1/admin/employee",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJzb2Z0dGVrSldUIiwic3ViIjoiMTAwMDAiLCJhdXRob3JpdGllcyI6WyJBRE1JTiIsIkVNUExPWUVFIl0sImlhdCI6MTYxNTcyNzg2NSwiZXhwIjoxNjE1NzI4NDY1fQ.1YddhXNRFljX8Z08prWj2GzsPnn5NOIT5ZpQjvDzywMKDDzLGLE320dyxulszbb_QOYd1xPrFNjrnq-y8FcQZg",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"firstName\": \"someFirstName1\",\n\t\"lastName\": \"someLastName1\",\n\t\"dateOfBirth\": 1000001231,\n\t\"designation\": \"Admin & Employee\",\n\t\"password\": \"mypass\",\n\t\"roles\": [\"ADMIN\",\"EMPLOYEE\"]\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteEmployee",
+					"request": {
+						"url": "http://localhost:8080/api/v1/admin/employee/10004",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJzb2Z0dGVrSldUIiwic3ViIjoiMTAwMDMiLCJhdXRob3JpdGllcyI6WyJBRE1JTiJdLCJpYXQiOjE2MTU3MjkwNzIsImV4cCI6MTYxNTcyOTY3Mn0.s1UadVaWMnxIgsAyBHDIrhng3RGfzJEDfwE9q1BFuLS9Sjp1piE-Kg7QBxsWMSr5Lh2ZPPUPAm1YYfvLGFAvIg",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Customer",
+			"description": "",
+			"item": [
+				{
+					"name": "AddCustomer",
+					"request": {
+						"url": "http://localhost:8080/api/v1/customer",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJzb2Z0dGVrSldUIiwic3ViIjoiMTAwMDAiLCJhdXRob3JpdGllcyI6WyJBRE1JTiIsIkVNUExPWUVFIl0sImlhdCI6MTYxNTcyOTE2MSwiZXhwIjoxNjE1NzI5NzYxfQ.6dYPG-5xHfrtdulB4Qf_6N7pfmHPN_w_E-GpdzCCdWLCD8YzF9c7HHzPZsNVWrVhWx_tCpnuBpAQZmVeAeHNMQ",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"firstName\": \"CustomerFirstName2\",\n\t\"lastName\": \"CustomerLastName1\",\n\t\"dateOfBirth\": 991231,\n\t\"kycDetails\": {\n\t\t\"details\": \"Some KYC Details\"\n\t}\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteCustomer",
+					"request": {
+						"url": "http://localhost:8080/api/v1/customer/10002",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJzb2Z0dGVrSldUIiwic3ViIjoiMTAwMDAiLCJhdXRob3JpdGllcyI6WyJBRE1JTiIsIkVNUExPWUVFIl0sImlhdCI6MTYxNTcyOTE2MSwiZXhwIjoxNjE1NzI5NzYxfQ.6dYPG-5xHfrtdulB4Qf_6N7pfmHPN_w_E-GpdzCCdWLCD8YzF9c7HHzPZsNVWrVhWx_tCpnuBpAQZmVeAeHNMQ",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "LinkAccountToCustomer",
+					"request": {
+						"url": "http://localhost:8080/api/v1/customer/10001/account/10001",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJzb2Z0dGVrSldUIiwic3ViIjoiMTAwMDAiLCJhdXRob3JpdGllcyI6WyJBRE1JTiIsIkVNUExPWUVFIl0sImlhdCI6MTYxNTczMDk1NywiZXhwIjoxNjE1NzMxNTU3fQ.AzY_N9S-RVcgxwBeBZtcUBNPPWPboyjdI7qc6Zvr64lM0z0VM2rsapYv6_AOWREtjG1Av_S7Ka_krEImx5rYmw",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateKYC",
+					"request": {
+						"url": "http://localhost:8080/api/v1/customer/10001/kyc",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJzb2Z0dGVrSldUIiwic3ViIjoiMTAwMDAiLCJhdXRob3JpdGllcyI6WyJBRE1JTiIsIkVNUExPWUVFIl0sImlhdCI6MTYxNTcyOTE2MSwiZXhwIjoxNjE1NzI5NzYxfQ.6dYPG-5xHfrtdulB4Qf_6N7pfmHPN_w_E-GpdzCCdWLCD8YzF9c7HHzPZsNVWrVhWx_tCpnuBpAQZmVeAeHNMQ",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"details\": \"Updated KYC now\",\n\t\"aadhar\": 1231209810\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "GetCustomerDetails",
+					"request": {
+						"url": "http://localhost:8080/api/v1/customer/10001",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJzb2Z0dGVrSldUIiwic3ViIjoiMTAwMDAiLCJhdXRob3JpdGllcyI6WyJBRE1JTiIsIkVNUExPWUVFIl0sImlhdCI6MTYxNTcyOTE2MSwiZXhwIjoxNjE1NzI5NzYxfQ.6dYPG-5xHfrtdulB4Qf_6N7pfmHPN_w_E-GpdzCCdWLCD8YzF9c7HHzPZsNVWrVhWx_tCpnuBpAQZmVeAeHNMQ",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"firstName\": \"CustomerFirstName1\",\n\t\"lastName\": \"CustomerLastName1\",\n\t\"dateOfBirth\": 991231,\n\t\"kycDetails\": {\n\t\t\"details\": \"Some KYC Details\"\n\t}\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Account",
+			"description": "",
+			"item": [
+				{
+					"name": "CreateAccount",
+					"request": {
+						"url": "http://localhost:8080/api/v1/account/savings",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJzb2Z0dGVrSldUIiwic3ViIjoiMTAwMDAiLCJhdXRob3JpdGllcyI6WyJBRE1JTiIsIkVNUExPWUVFIl0sImlhdCI6MTYxNTczMDk1NywiZXhwIjoxNjE1NzMxNTU3fQ.AzY_N9S-RVcgxwBeBZtcUBNPPWPboyjdI7qc6Zvr64lM0z0VM2rsapYv6_AOWREtjG1Av_S7Ka_krEImx5rYmw",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteAccount",
+					"request": {
+						"url": "http://localhost:8080/api/v1/account/10002",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJzb2Z0dGVrSldUIiwic3ViIjoiMTAwMDAiLCJhdXRob3JpdGllcyI6WyJBRE1JTiIsIkVNUExPWUVFIl0sImlhdCI6MTYxNTczMDk1NywiZXhwIjoxNjE1NzMxNTU3fQ.AzY_N9S-RVcgxwBeBZtcUBNPPWPboyjdI7qc6Zvr64lM0z0VM2rsapYv6_AOWREtjG1Av_S7Ka_krEImx5rYmw",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "GetAccountDetails + Balance",
+					"request": {
+						"url": "http://localhost:8080/api/v1/account/10001",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJzb2Z0dGVrSldUIiwic3ViIjoiMTAwMDAiLCJhdXRob3JpdGllcyI6WyJBRE1JTiIsIkVNUExPWUVFIl0sImlhdCI6MTYxNTczMTI5NywiZXhwIjoxNjE1NzMxODk3fQ.wGXy5oIkz5280C1CFcQFmbzC_IL_2EhqdOb_T77MhzWZCN16XATrKLcMp04hDf7m8f7TvdI4AXPnfiFC36ieDA",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Add Interest",
+					"request": {
+						"url": "http://localhost:8080/api/v1/account/10001/interest",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJzb2Z0dGVrSldUIiwic3ViIjoiMTAwMDAiLCJhdXRob3JpdGllcyI6WyJBRE1JTiIsIkVNUExPWUVFIl0sImlhdCI6MTYxNTczMDk1NywiZXhwIjoxNjE1NzMxNTU3fQ.AzY_N9S-RVcgxwBeBZtcUBNPPWPboyjdI7qc6Zvr64lM0z0VM2rsapYv6_AOWREtjG1Av_S7Ka_krEImx5rYmw",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Transaction",
+			"description": "",
+			"item": [
+				{
+					"name": "MakeTransaction",
+					"request": {
+						"url": "http://localhost:8080/api/v1/transaction",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJzb2Z0dGVrSldUIiwic3ViIjoiMTAwMDAiLCJhdXRob3JpdGllcyI6WyJBRE1JTiIsIkVNUExPWUVFIl0sImlhdCI6MTYxNTczMDk1NywiZXhwIjoxNjE1NzMxNTU3fQ.AzY_N9S-RVcgxwBeBZtcUBNPPWPboyjdI7qc6Zvr64lM0z0VM2rsapYv6_AOWREtjG1Av_S7Ka_krEImx5rYmw",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"toAccountNumber\": 10001,\n\t\"fundsToTransfer\": 10000,\n\t\"transactionDescription\": \"Initial\",\n\t\"transactionType\": \"Initial Deposit\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "TransactionHistory",
+					"request": {
+						"url": "http://localhost:8080/api/v1/transaction/history",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiJzb2Z0dGVrSldUIiwic3ViIjoiMTAwMDAiLCJhdXRob3JpdGllcyI6WyJBRE1JTiIsIkVNUExPWUVFIl0sImlhdCI6MTYxNTczMDk1NywiZXhwIjoxNjE1NzMxNTU3fQ.AzY_N9S-RVcgxwBeBZtcUBNPPWPboyjdI7qc6Zvr64lM0z0VM2rsapYv6_AOWREtjG1Av_S7Ka_krEImx5rYmw",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"accountNumber\": 10001,\n\t\"fromTime\":0,\n\t\"toTime\":1715702494000\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"description": "",
+			"item": [
+				{
+					"name": "signin",
+					"request": {
+						"url": "http://localhost:8080/api/v1/signin",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"empId\": 10000,\n\t\"password\": \"password\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "signout",
+					"request": {
+						"url": "http://localhost:8080/api/v1/signout/10000",
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "HealthCheck",
+			"request": {
+				"url": "http://localhost:8080/api/v1/healthCheck",
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"employeeId\": \"100002\"\n}"
+				},
+				"description": "HealthCheck"
+			},
+			"response": []
+		}
+	]
+}

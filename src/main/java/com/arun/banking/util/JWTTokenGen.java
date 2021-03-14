@@ -30,7 +30,7 @@ public class JWTTokenGen {
         user.getRoles().forEach(role -> {
             grantedAuthorities.add(new SimpleGrantedAuthority(role.getValue()));
         });
-        String token = Jwts.builder().setId("softtekJWT").setSubject("" + user.getEmpId())
+        String token = Jwts.builder().setId("arunJWT").setSubject("" + user.getEmpId())
                 .claim("authorities",
                         grantedAuthorities.stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
                 .setIssuedAt(new Date(System.currentTimeMillis()))
